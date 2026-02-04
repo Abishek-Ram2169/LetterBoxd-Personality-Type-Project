@@ -1,0 +1,52 @@
+/* CSV Upload Section */
+.csv-upload-section {
+    margin-top: 2rem;
+}
+
+.divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 2rem 0;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.divider-text {
+    padding: 0 1rem;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.csv-upload-container {
+    text-align: center;
+}
+
+.csv-intro {
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
+
+.csv-hint {
+    margin-top: 0.75rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.csv-hint a {
+    color: var(--primary);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.csv-hint a:hover {
+    color: var(--secondary);
+    text-decoration: underline;
+}

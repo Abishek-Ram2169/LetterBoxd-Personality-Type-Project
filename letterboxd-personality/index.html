@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Discover your cinephile personality type based on your Letterboxd profile. Get personalized film insights using MBTI framework.">
+  <title>Letterboxd Personality Analyzer - Discover Your Cinephile Type</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="csv-styles.css">
+</head>
+
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header>
+      <h1>🎬 Letterboxd Personality</h1>
+      <p class="subtitle">Discover your unique film-watching personality based on your Letterboxd profile</p>
+    </header>
+
+    <!-- Input Section -->
+    <section class="input-section">
+      <div class="glass-card">
+
+        <!-- Advanced Analysis Section -->
+        <div class="csv-upload-section advanced-section" style="padding-top: 0.5rem;">
+          <div class="section-badge">ADVANCED MODE</div>
+          <h3 style="color:white; font-size: 1.1rem; margin-bottom: 0.5rem;">Deep Analysis with Accurate Scraping</h3>
+          <p class="csv-hint">Upload your CSV and tell us your Top 4. We'll scrape accurate metadata for every film.</p>
+
+          <div class="top4-inputs"
+            style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 1rem;">
+            <input type="text" id="top4-1" class="username-input" placeholder="Favorite 1" style="font-size: 0.9rem;">
+            <input type="text" id="top4-2" class="username-input" placeholder="Favorite 2" style="font-size: 0.9rem;">
+            <input type="text" id="top4-3" class="username-input" placeholder="Favorite 3" style="font-size: 0.9rem;">
+            <input type="text" id="top4-4" class="username-input" placeholder="Favorite 4" style="font-size: 0.9rem;">
+          </div>
+
+          <div class="mbti-input-wrapper" style="margin-bottom: 1rem;">
+            <select id="user-mbti-select" class="username-input" style="font-size: 0.9rem; cursor: pointer;">
+              <option value="" disabled selected>Select your actual MBTI (Optional)</option>
+              <option value="INTJ">INTJ (Architect)</option>
+              <option value="INTP">INTP (Logician)</option>
+              <option value="ENTJ">ENTJ (Commander)</option>
+              <option value="ENTP">ENTP (Debater)</option>
+              <option value="INFJ">INFJ (Advocate)</option>
+              <option value="INFP">INFP (Mediator)</option>
+              <option value="ENFJ">ENFJ (Protagonist)</option>
+              <option value="ENFP">ENFP (Campaigner)</option>
+              <option value="ISTJ">ISTJ (Logistician)</option>
+              <option value="ISFJ">ISFJ (Defender)</option>
+              <option value="ESTJ">ESTJ (Executive)</option>
+              <option value="ESFJ">ESFJ (Consul)</option>
+              <option value="ISTP">ISTP (Virtuoso)</option>
+              <option value="ISFP">ISFP (Adventurer)</option>
+              <option value="ESTP">ESTP (Entrepreneur)</option>
+              <option value="ESFP">ESFP (Entertainer)</option>
+            </select>
+          </div>
+
+          <div class="csv-upload-container">
+            <input type="file" id="advanced-csv-input" class="csv-file-input" accept=".csv" hidden>
+            <button type="button" id="advanced-upload-btn" class="btn btn-primary"
+              style="background: linear-gradient(45deg, #FF8008, #FFC837);">
+              🚀 Analyze
+            </button>
+            <p class="csv-hint">
+              <a href="https://letterboxd.com/settings/data/" target="_blank" rel="noopener">Export your data from
+                Letterboxd</a>
+            </p>
+          </div>
+        </div>
+
+        <!-- Demo Users -->
+        <div id="demo-users" style="margin-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1rem;">
+        </div>
+      </div>
+    </section>
+
+    <!-- Loading State -->
+    <section id="loading" class="loading hidden">
+      <div class="glass-card">
+        <div class="spinner"></div>
+        <p>Analyzing your cinematic soul...</p>
+      </div>
+    </section>
+
+    <!-- Error State -->
+    <div id="error" class="error hidden"></div>
+
+    <!-- Results Section -->
+    <section id="results" class="results hidden">
+      <!-- Result Header -->
+      <div class="result-header">
+        <h2>Analysis complete for</h2>
+        <div class="username-display" id="result-username"></div>
+      </div>
+
+      <!-- Personality Type Card -->
+      <div class="glass-card personality-card">
+        <div class="personality-header">
+          <span class="personality-icon" id="personality-icon">✨</span>
+          <h2 class="personality-name" id="personality-name">The Cinematic Visionary</h2>
+          <div class="personality-mbti" id="personality-mbti">MBTI: INFJ</div>
+        </div>
+
+        <p class="personality-tagline" id="personality-tagline">
+          Empathetic viewers drawn to transformative stories
+        </p>
+
+        <p class="personality-description" id="personality-description">
+          You seek films with deep emotional resonance and meaningful themes...
+        </p>
+
+        <div class="personality-quote" id="personality-quote">
+          "You feel films in your soul"
+        </div>
+
+        <div class="personality-traits" id="personality-traits">
+          <span class="trait-badge">Empathetic</span>
+          <span class="trait-badge">Idealistic</span>
+          <span class="trait-badge">Insightful</span>
+          <span class="trait-badge">Passionate</span>
+        </div>
+      </div>
+
+      <!-- MBTI Comparison Section (Hidden by default) -->
+      <div id="mbti-comparison-card" class="glass-card hidden"
+        style="margin-top: 1.5rem; background: rgba(255,255,255,0.08);">
+        <h3 class="section-title" style="margin-bottom: 1rem;">Self-Perception vs. Cinematic Reality</h3>
+        <div class="comparison-grid"
+          style="display: grid; grid-template-columns: 1fr 0.2fr 1fr; gap: 1rem; align-items: center; text-align: center;">
+          <div class="comp-col">
+            <div class="comp-label" style="font-size: 0.8rem; text-transform: uppercase;">You Said</div>
+            <div id="real-mbti-display" class="comp-val" style="font-size: 1.5rem; font-weight: bold;">-</div>
+          </div>
+          <div class="comp-vs" style="font-size: 1.2rem; opacity: 0.7;">VS</div>
+          <div class="comp-col">
+            <div class="comp-label" style="font-size: 0.8rem; text-transform: uppercase;">Films Say</div>
+            <div id="movie-mbti-display" class="comp-val"
+              style="font-size: 1.5rem; font-weight: bold; color: var(--personality-color);">-</div>
+          </div>
+        </div>
+        <div id="comparison-result" style="margin-top: 1rem; text-align: center; font-style: italic; color: #ddd;">
+        </div>
+      </div>
+
+      <!-- Top Genres -->
+      <div class="glass-card genre-section">
+        <h3 class="section-title">Your Top Genres</h3>
+        <div class="genre-list" id="top-genres">
+          <!-- Dynamic content -->
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="glass-card">
+        <h3 class="section-title">Analysis Metrics</h3>
+        <div class="stats-grid" style="grid-template-columns: 1fr 1fr; gap: 1rem;">
+
+          <!-- Top Genre Weights -->
+          <div class="stat-card" style="text-align: left; align-items: flex-start; padding: 1rem;">
+            <div class="stat-label" style="margin-bottom: 0.5rem;">Top Genre Weights</div>
+            <div id="top-genre-weights" class="weights-list" style="font-size: 0.9rem; width: 100%;">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+
+          <!-- Personality Scores -->
+          <div class="stat-card" style="text-align: left; align-items: flex-start; padding: 1rem;">
+            <div class="stat-label" style="margin-bottom: 0.5rem;">Personality Matches</div>
+            <div id="top-personality-scores" class="weights-list" style="font-size: 0.9rem; width: 100%;">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-value" id="stat-films">-</div>
+            <div class="stat-label">Total Films</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="stat-genres">-</div>
+            <div class="stat-label">Unique Genres</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Load scripts in order (no modules to avoid CORS issues with file://) -->
+  <script src="personality-types.js"></script>
+  <script src="genre-analyzer.js"></script>
+  <script src="letterboxd-scraper.js"></script>
+  <script src="parser_v2.js"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>
