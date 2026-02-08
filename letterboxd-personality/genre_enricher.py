@@ -64,9 +64,7 @@ class GenreEnricher:
             if response.status_code == 200:
                 soup = BeautifulSoup(response.text, 'html.parser')
                 
-                # Genres are in the header metadata or links
-                # Usually: <div class="text-sluglist capitalized"> ... <a href="/films/genre/horror/">Horror</a>
-                # Look for links that start with /films/genre/
+               
                 genre_links = soup.select('a[href^="/films/genre/"]')
                 genres = [a.text.strip() for a in genre_links if "All" not in a.text]
                 
